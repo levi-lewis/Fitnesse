@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, StyleSheet, TouchableWithoutFeedback, View, Alert } from 'react-native';
+import { Modal, TouchableWithoutFeedback, View, Alert } from 'react-native';
+import CalendarModalStyles from '../styles/CalendarModalStyles';
 
 class CalendarModal extends Component {
     constructor(props) {
@@ -7,7 +8,8 @@ class CalendarModal extends Component {
         this.state={
             visible: false
         }
-        this.toggleModal = this.toggleModal.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.hideModal = this.hideModal.bind(this);
     }
 
     render() {
@@ -16,13 +18,13 @@ class CalendarModal extends Component {
                 visible={this.state.visible}
                 transparent={true}
             >
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <TouchableWithoutFeedback onPress={this.toggleModal}>
-                        <View style={styles.leftModalStyle}>
+                <View style={CalendarModalStyles.wrapperStyle}>
+                    <TouchableWithoutFeedback onPress={this.hideModal}>
+                        <View style={[CalendarModalStyles.leftModalStyle, CalendarModalStyles.shadow]}>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={this.toggleModal}>
-                        <View style={styles.rightModalStyle}>
+                    <TouchableWithoutFeedback onPress={this.hideModal}>
+                        <View style={[CalendarModalStyles.rightModalStyle, CalendarModalStyles.shadow]}>
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
@@ -30,24 +32,14 @@ class CalendarModal extends Component {
         )
     }
 
-    toggleModal() {
-        this.setState({visible: !this.state.visible});
+    showModal() {
+        this.setState({ visible: true});
+    }
+    
+    hideModal() {
+        this.props.closeHandler();
+        this.setState({visible: false});
     }
 }
-
-const styles = StyleSheet.create({
-    leftModalStyle: {
-      backgroundColor: 'red',
-      height: '100%',
-      width: '50%',
-      opacity: .1
-    },
-    rightModalStyle: {
-      backgroundColor: 'blue',
-      height: '100%',
-      width: '50%',
-      opacity: .1
-    }
-  });
 
 export default CalendarModal;

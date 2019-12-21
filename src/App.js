@@ -1,38 +1,38 @@
 import React, { Component } from 'react';
 import { CalendarList } from 'react-native-calendars';
-import { StyleSheet, View} from 'react-native';
+import { View} from 'react-native';
 import CalendarModal from './app/components/CalendarModal';
+import AppStyles from './app/styles/AppStyles.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.toggleCalendarModal = this.toggleCalendarModal.bind(this);
+    this.showCalendarModal = this.showCalendarModal.bind(this);
+    this.hideCalendarModal = this.hideCalendarModal.bind(this);
     this.state = { modalVisible: false };
   }
 
-
   render() {
     return (
-      <View>
-        <CalendarModal ref={ref => { this.calendarModal = ref }} />
-        <View style={this.state.modalVisible ? styles.unfocusedCalendar : null}>
-          <CalendarList onDayPress={this.toggleCalendarModal} />
+      <View >
+        <CalendarModal ref={ref => { this.calendarModal = ref }} closeHandler={this.hideCalendarModal}/>
+        <View style={this.state.modalVisible ? AppStyles.unfocusedCalendar : null}>
+          <CalendarList onDayPress={this.showCalendarModal} />
         </View>
-      </View> 
+      </View>
     )
   }
 
-  toggleCalendarModal() {
+  showCalendarModal() {
     if(this.calendarModal) {
-      this.calendarModal.toggleModal();
+      this.calendarModal.showModal();
+      this.setState( { modalVisible: true } );
     }
   }
-}
 
-const styles = StyleSheet.create({
-  unfocusedCalendar: {
-    opacity: .1
+  hideCalendarModal() {
+    this.setState({ modalVisible: false});
   }
-});
+}
 
 export default App;
